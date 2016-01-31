@@ -10,6 +10,15 @@
 		939493AA1A4B1E9100CEEF27 /* SwiftGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 939493A91A4B1E9100CEEF27 /* SwiftGraph.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		939493B01A4B1E9100CEEF27 /* SwiftGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939493A41A4B1E9100CEEF27 /* SwiftGraph.framework */; };
 		939493B71A4B1E9100CEEF27 /* SwiftGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939493B61A4B1E9100CEEF27 /* SwiftGraphTests.swift */; };
+		939493C11A4B1F6700CEEF27 /* GraphSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939493C01A4B1F6700CEEF27 /* GraphSpace.swift */; };
+		93B4AA181A4B5F67008B6526 /* GraphData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B4AA171A4B5F67008B6526 /* GraphData.swift */; };
+		93C398701A571A2D0085F60A /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C3986F1A571A2D0085F60A /* Graph.swift */; };
+		93C398721A5725C70085F60A /* LineGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C398711A5725C70085F60A /* LineGraph.swift */; };
+		93C398761A5740240085F60A /* RangeGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C398751A5740240085F60A /* RangeGraph.swift */; };
+		93CEE2681C5D16C000E98BA4 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CEE2671C5D16C000E98BA4 /* Observable.swift */; };
+		93CEE26A1C5D2D3A00E98BA4 /* SortedExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CEE2691C5D2D3A00E98BA4 /* SortedExtensions.swift */; };
+		93F1153B1C5550E5003E1C2E /* SortedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1153A1C5550E5003E1C2E /* SortedArray.swift */; };
+		93F1153D1C5550FB003E1C2E /* SortedArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1153C1C5550FB003E1C2E /* SortedArrayTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +38,15 @@
 		939493AF1A4B1E9100CEEF27 /* SwiftGraphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftGraphTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		939493B51A4B1E9100CEEF27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		939493B61A4B1E9100CEEF27 /* SwiftGraphTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftGraphTests.swift; sourceTree = "<group>"; };
+		939493C01A4B1F6700CEEF27 /* GraphSpace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphSpace.swift; sourceTree = "<group>"; };
+		93B4AA171A4B5F67008B6526 /* GraphData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphData.swift; sourceTree = "<group>"; };
+		93C3986F1A571A2D0085F60A /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
+		93C398711A5725C70085F60A /* LineGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraph.swift; sourceTree = "<group>"; };
+		93C398751A5740240085F60A /* RangeGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeGraph.swift; sourceTree = "<group>"; };
+		93CEE2671C5D16C000E98BA4 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		93CEE2691C5D2D3A00E98BA4 /* SortedExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedExtensions.swift; sourceTree = "<group>"; };
+		93F1153A1C5550E5003E1C2E /* SortedArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedArray.swift; sourceTree = "<group>"; };
+		93F1153C1C5550FB003E1C2E /* SortedArrayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedArrayTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +89,10 @@
 		939493A61A4B1E9100CEEF27 /* SwiftGraph */ = {
 			isa = PBXGroup;
 			children = (
+				93CEE2661C5D168B00E98BA4 /* Utilities */,
 				939493A91A4B1E9100CEEF27 /* SwiftGraph.h */,
+				93C398741A57300E0085F60A /* Data */,
+				93C398731A572FF30085F60A /* Graphs */,
 				939493A71A4B1E9100CEEF27 /* Supporting Files */,
 			);
 			path = SwiftGraph;
@@ -89,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				939493B61A4B1E9100CEEF27 /* SwiftGraphTests.swift */,
+				93F1153C1C5550FB003E1C2E /* SortedArrayTests.swift */,
 				939493B41A4B1E9100CEEF27 /* Supporting Files */,
 			);
 			path = SwiftGraphTests;
@@ -100,6 +122,35 @@
 				939493B51A4B1E9100CEEF27 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		93C398731A572FF30085F60A /* Graphs */ = {
+			isa = PBXGroup;
+			children = (
+				93C3986F1A571A2D0085F60A /* Graph.swift */,
+				93C398711A5725C70085F60A /* LineGraph.swift */,
+				93C398751A5740240085F60A /* RangeGraph.swift */,
+			);
+			name = Graphs;
+			sourceTree = "<group>";
+		};
+		93C398741A57300E0085F60A /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				939493C01A4B1F6700CEEF27 /* GraphSpace.swift */,
+				93B4AA171A4B5F67008B6526 /* GraphData.swift */,
+				93F1153A1C5550E5003E1C2E /* SortedArray.swift */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		93CEE2661C5D168B00E98BA4 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				93CEE2671C5D16C000E98BA4 /* Observable.swift */,
+				93CEE2691C5D2D3A00E98BA4 /* SortedExtensions.swift */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,7 +209,9 @@
 		9394939B1A4B1E9100CEEF27 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastSwiftMigration = 0720;
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "FlexileSoft, LLC";
 				TargetAttributes = {
 					939493A31A4B1E9100CEEF27 = {
@@ -209,6 +262,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93F1153B1C5550E5003E1C2E /* SortedArray.swift in Sources */,
+				93C398701A571A2D0085F60A /* Graph.swift in Sources */,
+				93CEE26A1C5D2D3A00E98BA4 /* SortedExtensions.swift in Sources */,
+				93C398721A5725C70085F60A /* LineGraph.swift in Sources */,
+				93CEE2681C5D16C000E98BA4 /* Observable.swift in Sources */,
+				93B4AA181A4B5F67008B6526 /* GraphData.swift in Sources */,
+				93C398761A5740240085F60A /* RangeGraph.swift in Sources */,
+				939493C11A4B1F6700CEEF27 /* GraphSpace.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +277,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93F1153D1C5550FB003E1C2E /* SortedArrayTests.swift in Sources */,
 				939493B71A4B1E9100CEEF27 /* SwiftGraphTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -252,6 +314,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -319,6 +382,7 @@
 		939493BB1A4B1E9100CEEF27 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -326,14 +390,17 @@
 				INFOPLIST_FILE = SwiftGraph/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.flexile.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		939493BC1A4B1E9100CEEF27 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -341,6 +408,7 @@
 				INFOPLIST_FILE = SwiftGraph/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.flexile.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -359,6 +427,7 @@
 				);
 				INFOPLIST_FILE = SwiftGraphTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.flexile.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -372,6 +441,7 @@
 				);
 				INFOPLIST_FILE = SwiftGraphTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.flexile.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -395,6 +465,7 @@
 				939493BC1A4B1E9100CEEF27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		939493BD1A4B1E9100CEEF27 /* Build configuration list for PBXNativeTarget "SwiftGraphTests" */ = {
 			isa = XCConfigurationList;
@@ -403,6 +474,7 @@
 				939493BF1A4B1E9100CEEF27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
