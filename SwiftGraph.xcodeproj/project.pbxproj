@@ -17,6 +17,7 @@
 		93C398761A5740240085F60A /* RangeGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C398751A5740240085F60A /* RangeGraph.swift */; };
 		93CEE2681C5D16C000E98BA4 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CEE2671C5D16C000E98BA4 /* Observable.swift */; };
 		93CEE26A1C5D2D3A00E98BA4 /* SortedExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CEE2691C5D2D3A00E98BA4 /* SortedExtensions.swift */; };
+		93CEE26C1C5EF78500E98BA4 /* Arithmatic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CEE26B1C5EF78500E98BA4 /* Arithmatic.swift */; };
 		93F1153B1C5550E5003E1C2E /* SortedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1153A1C5550E5003E1C2E /* SortedArray.swift */; };
 		93F1153D1C5550FB003E1C2E /* SortedArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1153C1C5550FB003E1C2E /* SortedArrayTests.swift */; };
 /* End PBXBuildFile section */
@@ -45,6 +46,7 @@
 		93C398751A5740240085F60A /* RangeGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeGraph.swift; sourceTree = "<group>"; };
 		93CEE2671C5D16C000E98BA4 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		93CEE2691C5D2D3A00E98BA4 /* SortedExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedExtensions.swift; sourceTree = "<group>"; };
+		93CEE26B1C5EF78500E98BA4 /* Arithmatic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arithmatic.swift; sourceTree = "<group>"; };
 		93F1153A1C5550E5003E1C2E /* SortedArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedArray.swift; sourceTree = "<group>"; };
 		93F1153C1C5550FB003E1C2E /* SortedArrayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedArrayTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -140,6 +142,7 @@
 				939493C01A4B1F6700CEEF27 /* GraphSpace.swift */,
 				93B4AA171A4B5F67008B6526 /* GraphData.swift */,
 				93F1153A1C5550E5003E1C2E /* SortedArray.swift */,
+				93CEE26B1C5EF78500E98BA4 /* Arithmatic.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				93CEE2681C5D16C000E98BA4 /* Observable.swift in Sources */,
 				93B4AA181A4B5F67008B6526 /* GraphData.swift in Sources */,
 				93C398761A5740240085F60A /* RangeGraph.swift in Sources */,
+				93CEE26C1C5EF78500E98BA4 /* Arithmatic.swift in Sources */,
 				939493C11A4B1F6700CEEF27 /* GraphSpace.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -131,7 +131,15 @@ private func compareComparables<T: Comparable>(left: T, _ right: T) -> Compariso
 extension CollectionType where Generator.Element: Comparable, Index == Int {
   
   func rangeOfObjectsAtIndex(index: Int) -> Range<Int> {
-    return self.rangeOfObjectsAtIndex(index, compare: compareComparables)
+    return rangeOfObjectsAtIndex(index, compare: compareComparables)
+  }
+  
+  func rangeBounded(from from: Generator.Element?, to: Generator.Element?) -> Range<Int> {
+    return rangeBounded(from: from, to: to, compare: compareComparables)
+  }
+  
+  func insertionIndexOf(object: Generator.Element) -> Int {
+    return insertionIndexOf(object, compare: compareComparables)
   }
   
 }

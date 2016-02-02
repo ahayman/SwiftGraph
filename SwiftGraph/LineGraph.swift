@@ -8,24 +8,23 @@
 
 import Foundation
 
-protocol LineDataPoint : BasePoint {
-  var y: Double { get }
+
+public protocol LineData : BaseData {
+  func yAtIndex(index: Int) -> FloatingType
 }
 
-class LineGraph <T: LineDataPoint> : Graph<T> {
+class LineGraph <T: LineData> : Graph<T> {
   
-  override init(space: GraphSpace, data: GraphData<T>){
-    super.init(space: space, data: data)
-    self.lineWidth = 1.0
-    self.strokeColor = UIColor.blackColor().CGColor
-    self.fillColor = nil
-  }
-
+  private typealias FT = T.FloatingType
+  
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  // MARK: Overrides
+  
+  override init(space: GraphSpace<T.FloatingType>, data: GraphData<T>){
+    super.init(space: space, data: data)
+  }
   
   /**
   Generates the a line graph path
@@ -33,79 +32,81 @@ class LineGraph <T: LineDataPoint> : Graph<T> {
   - returns: line graph path
   */
   override func newGraphPath() -> CGPathRef? {
-    guard graphData.data.count > 0 else { return nil }
+    let data = graphData.data
+    guard data.count > 0 else { return nil }
     
-    var xRange = self.graphSpace.xRange
-    var yRange = self.graphSpace.yRange
+    var xRange = graphSpace.xRange
+    var yRange = graphSpace.yRange
     
-    let range = self.xData.data.rangeBounded(from: xRange.lowerBounds, to: xRange.upperBounds)
-    var xData = self.xData.data[range.startIndex...range.endIndex]
-    if xData.count < 1 { return nil }
-    let upperIdx = yData.endIndex
+    let range = graphData.rangeBounded(from: xRange.lowerBounds, to: xRange.upperBounds)
     
-    let xSpan = Double(self.bounds.size.width)
-    let ySpan = Double(self.bounds.size.height)
+    guard range.endIndex > range.startIndex else { return nil }
+    
+    let upperIdx = range.endIndex
+    
+    let xSpan = FT(bounds.size.width)
+    let ySpan = FT(bounds.size.height)
     
     let xLower = xRange.lowerBounds
     let xUpper = xRange.upperBounds
     let yLower = yRange.lowerBounds
     let yUpper = yRange.upperBounds
     
-    let xFactor = xSpan / ((xUpper - xLower > 0) ? xUpper - xLower : 1)
-    let yFactor = ySpan / ((yUpper - yLower > 0) ? yUpper - yLower : 1)
+    let xFactor = xSpan / ((xUpper - xLower > 0.0) ? xUpper - xLower : 1.0)
+    let yFactor = ySpan / ((yUpper - yLower > 0.0) ? yUpper - yLower : 1.0)
     
     let pathRef = CGPathCreateMutable()
-    var x = 0.0, y = 0.0
-    let resolution = Double(1.0 / UIScreen.mainScreen().scale)
-    var resStart = 0.0, resEnd = 0.0 + resolution
+    var x = FT(0.0), y = FT(0.0)
+    let resolution = FT(1.0 / screenScale)
+    var resStart = FT(0.0), resEnd = FT(0.0) + resolution
     
     let fill = (self.fillColor != nil) ? true : false
     var idx = 0
     
     if (fill){
-      x = (xData[idx] - xLower) * xFactor
+      x = (data[idx] - xLower) * xFactor
       y = (yUpper - self.graphSpace.xBase) * yFactor
     } else {
-      x = (xData[idx] - xLower) * xFactor
-      y = (yUpper - yData[idx]) * yFactor
+      x = (data[idx] - xLower) * xFactor
+      y = (yUpper - data.yAtIndex(idx)) * yFactor
       idx++
     }
     
-    CGPathMoveToPoint(pathRef, nil, CGFloat(x), CGFloat(y))
+    CGPathMoveToPoint(pathRef, nil, x.cgfloat, y.cgfloat)
     
-    resStart = floor(x / resolution) * resolution
+    resStart = (x / resolution).floor * resolution
     resEnd = resStart + resolution
     
-    var cY = (yUpper - yData[idx]) * yFactor
-    x = (xData[idx] - xLower) * xFactor
+    var cY = (yUpper - data.yAtIndex(idx)) * yFactor
+    x = (data.xAtIndex(idx) - xLower) * xFactor
     var findMin = false
     
-    if (xData.count > Int(Double(self.bounds.size.width) / resolution)){
+    if data.count > (FT(self.bounds.size.width) / resolution).int {
       while (idx <= upperIdx){
         findMin = (cY > y) ? false : true
         while (x < resEnd && idx <= upperIdx){
-          cY = (yUpper - yData[idx]) * yFactor
-          y = findMin ? fmin(cY, y) : fmax(cY, y)
+          cY = (yUpper - data.yAtIndex(idx)) * yFactor
+          y = findMin ? min(cY, y) : max(cY, y)
           idx++
-          x = (xData[idx] - xLower) * xFactor
+          x = (data.xAtIndex(idx) - xLower) * xFactor
         }
-        CGPathAddLineToPoint(pathRef, nil, CGFloat(resStart), CGFloat(y))
+        CGPathAddLineToPoint(pathRef, nil, resStart.cgfloat, y.cgfloat)
         
-        resStart = floor(x / resolution) * resolution
+        resStart = (x / resolution).floor * resolution
         resEnd = resStart + resolution
-        cY = (yUpper - yData[idx]) * yFactor
+        cY = (yUpper - data.yAtIndex(idx)) * yFactor
       }
     } else {
       for (; idx <= upperIdx; idx++){
-        CGPathAddLineToPoint(pathRef, nil, CGFloat((xData[idx] - xLower) * xFactor), CGFloat((yUpper - yData[idx]) * yFactor))
+        CGPathAddLineToPoint(pathRef, nil, ((data.xAtIndex(idx) - xLower) * xFactor).cgfloat, ((yUpper - data.yAtIndex(idx)) * yFactor).cgfloat)
       }
     }
     
     if (fill){
       //Last point and path close if we're filling
-      y = (yUpper - self.graphSpace.xBase) * yFactor
-      x = (xData[upperIdx] - xLower) * xFactor
-      CGPathAddLineToPoint(pathRef, nil, CGFloat(x), CGFloat(y))
+      y = (yUpper - graphSpace.xBase) * yFactor
+      x = (data.xAtIndex(upperIdx) - xLower) * xFactor
+      CGPathAddLineToPoint(pathRef, nil, x.cgfloat, y.cgfloat)
       
       CGPathCloseSubpath(pathRef)
     }

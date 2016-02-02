@@ -8,117 +8,109 @@
 
 import Foundation
 
-protocol RangeDataPoint : BasePoint {
-  var upper: Double { get }
-  var lower: Double { get }
+protocol RangeData : BaseData {
+  func upperAtIndex(index: Int) -> FloatingType
+  func lowerAtIndex(index: Int) -> FloatingType
 }
 
-class RangeGraph <T: RangeDataPoint> : Graph<T> {
+class RangeGraph <T: RangeData> : Graph<T> {
   
-  override init(space: GraphSpace, data: GraphData<T>){
+  private typealias FT = T.FloatingType
+  
+  override init(space: GraphSpace<T.FloatingType>, data: GraphData<T>){
     super.init(space: space, data: data)
-    self.lineWidth = 1.0
-    self.strokeColor = UIColor.blackColor().CGColor
-    self.fillColor = nil
   }
 
   required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+    fatalError("init(coder:) has not been implemented because the developer has never actually used NSCoder before and is too lazy to figure it out.")
   }
   
-//  override func newGraphPath() -> CGPathRef? {
-//    var xRange = self.graphSpace.xRange
-//    var yRange = self.graphSpace.yRange
-//    
-//    if (self.xData.data.count > 0 && self.yUpperData.data.count <= self.xData.data.count && self.yLowerData.data.count <= self.xData.data.count){
-//      let range = self.xData.data.rangeBounded(from: xRange.lowerBounds, to: xRange.upperBounds)
-//      var xData = self.xData.data[range.startIndex...range.endIndex]
-//      if xData.count < 1 { return nil }
-//      
-//      var upperData = self.yUpperData.data[range.startIndex...range.endIndex]
-//      var lowerData = self.yLowerData.data[range.startIndex...range.endIndex]
-//      let upperIdx = xData.endIndex;
-//      
-//      let xSpan = Double(self.bounds.size.width)
-//      let ySpan = Double(self.bounds.size.height)
-//      
-//      let xLower = xRange.lowerBounds
-//      let xUpper = xRange.upperBounds
-//      let yLower = yRange.lowerBounds
-//      let yUpper = yRange.upperBounds
-//      
-//      let xFactor = xSpan / ((xUpper - xLower > 0) ? xUpper - xLower : 1)
-//      let yFactor = ySpan / ((yUpper - yLower > 0) ? yUpper - yLower : 1)
-//      
-//      let pathRef = CGPathCreateMutable()
-//      var x = 0.0, y = 0.0
-//      let resolution = Double(1.0 / UIScreen.mainScreen().scale)
-//      var resStart = 0.0, resEnd = 0.0 + resolution
-//      
-//      var idx = 0
-//      
-//      x = (xData[idx] - xLower) * xFactor
-//      y = (yUpper - lowerData[idx]) * yFactor
-//      idx++
-//      
-//      CGPathMoveToPoint(pathRef, nil, CGFloat(x), CGFloat(y))
-//      
-//      resStart = floor(x / resolution) * resolution
-//      resEnd = resStart + resolution
-//      
-//      var cY = (yUpper - lowerData[idx]) * yFactor
-//      x = (xData[idx] - xLower) * xFactor
-//      var findMin = false
-//      
-//      //Lower path draw
-//      if (xData.count > Int(Double(self.bounds.size.width) / resolution)){
-//        while (idx <= upperIdx){
-//          findMin = (cY > y) ? false : true
-//          while (x < resEnd && idx <= upperIdx){
-//            cY = (yUpper - lowerData[idx]) * yFactor
-//            y = findMin ? fmin(cY, y) : fmax(cY, y)
-//            idx++
-//            x = (xData[idx] - xLower) * xFactor
-//          }
-//          CGPathAddLineToPoint(pathRef, nil, CGFloat(resStart), CGFloat(y))
-//          
-//          resStart = floor(x / resolution) * resolution
-//          resEnd = resStart + resolution
-//          cY = (yUpper - lowerData[idx]) * yFactor
-//        }
-//      } else {
-//        for (; idx <= upperIdx; idx++){
-//          CGPathAddLineToPoint(pathRef, nil, CGFloat((xData[idx] - xLower) * xFactor), CGFloat((yUpper - lowerData[idx]) * yFactor))
-//        }
-//      }
-//      
-//      //Upper path draw
-//      if (xData.count > Int(Double(self.bounds.size.width) / resolution)){
-//        while (idx >= 0){
-//          findMin = (cY > y) ? false : true
-//          while (x < resEnd && idx <= upperIdx){
-//            cY = (yUpper - upperData[idx]) * yFactor
-//            y = findMin ? fmin(cY, y) : fmax(cY, y)
-//            idx--
-//            x = (xData[idx] - xLower) * xFactor
-//          }
-//          CGPathAddLineToPoint(pathRef, nil, CGFloat(resStart), CGFloat(y))
-//          
-//          resStart = floor(x / resolution) * resolution
-//          resEnd = resStart + resolution
-//          cY = (yUpper - upperData[idx]) * yFactor
-//        }
-//      } else {
-//        for (; idx >= 0; idx--){
-//          CGPathAddLineToPoint(pathRef, nil, CGFloat((xData[idx] - xLower) * xFactor), CGFloat((yUpper - upperData[idx]) * yFactor))
-//        }
-//      }
-//      
-//      CGPathCloseSubpath(pathRef)
-//      
-//      return pathRef
-//    } else {
-//      return nil
-//    }
-//  }
+  override func newGraphPath() -> CGPathRef? {
+    guard graphData.count > 0 else { return nil }
+    var xRange = self.graphSpace.xRange
+    var yRange = self.graphSpace.yRange
+    
+    let range = graphData.rangeBounded(from: xRange.lowerBounds, to: xRange.upperBounds)
+    let data = graphData.data
+    guard range.startIndex < range.endIndex else { return nil }
+    
+    let xSpan = FT(self.bounds.size.width)
+    let ySpan = FT(self.bounds.size.height)
+    
+    let xLower = xRange.lowerBounds
+    let xUpper = xRange.upperBounds
+    let yLower = yRange.lowerBounds
+    let yUpper = yRange.upperBounds
+    
+    let xFactor = xSpan / ((xUpper - xLower > 0.0) ? xUpper - xLower : 1.0)
+    let yFactor = ySpan / ((yUpper - yLower > 0.0) ? yUpper - yLower : 1.0)
+    
+    let pathRef = CGPathCreateMutable()
+    var x: FT = 0.0, y: FT = 0.0
+    let resolution = FT(1.0 / UIScreen.mainScreen().scale)
+    var resStart: FT = 0.0, resEnd: FT = 0.0 + resolution
+    
+    var idx = range.startIndex
+    
+    x = (data[idx] - xLower) * xFactor
+    y = (yUpper - data.lowerAtIndex(idx)) * yFactor
+    idx++
+    
+    CGPathMoveToPoint(pathRef, nil, x.cgfloat, y.cgfloat)
+    
+    resStart = (x / resolution).floor * resolution
+    resEnd = resStart + resolution
+    
+    var cY = (yUpper - data.lowerAtIndex(idx)) * yFactor
+    x = (data.xAtIndex(idx) - xLower) * xFactor
+    var findMin = false
+    
+    //Lower path draw
+    if range.count > Int((self.bounds.size.width) / resolution.cgfloat) {
+      while idx <= range.endIndex {
+        findMin = (cY > y) ? false : true
+        while x < resEnd && idx <= range.endIndex {
+          cY = (yUpper - data.lowerAtIndex(idx)) * yFactor
+          y = findMin ? min(cY, y) : max(cY, y)
+          idx++
+          x = (data.xAtIndex(idx) - xLower) * xFactor
+        }
+        CGPathAddLineToPoint(pathRef, nil, resStart.cgfloat, y.cgfloat)
+        
+        resStart = (x / resolution).floor * resolution
+        resEnd = resStart + resolution
+        cY = (yUpper - data.lowerAtIndex(idx)) * yFactor
+      }
+    } else {
+      for (; idx <= range.endIndex; idx++){
+        CGPathAddLineToPoint(pathRef, nil, ((data.xAtIndex(idx) - xLower) * xFactor).cgfloat, ((yUpper - data.lowerAtIndex(idx)) * yFactor).cgfloat)
+      }
+    }
+    
+    //Upper path draw
+    if range.count > Int((self.bounds.size.width) / resolution.cgfloat) {
+      while idx >= range.startIndex {
+        findMin = (cY > y) ? false : true
+        while x < resEnd && idx <= range.endIndex {
+          cY = (yUpper - data.upperAtIndex(idx)) * yFactor
+          y = findMin ? min(cY, y) : max(cY, y)
+          idx--
+          x = (data.xAtIndex(idx) - xLower) * xFactor
+        }
+        CGPathAddLineToPoint(pathRef, nil, resStart.cgfloat, y.cgfloat)
+        
+        resStart = (x / resolution).floor * resolution
+        resEnd = resStart + resolution
+        cY = (yUpper - data.upperAtIndex(idx)) * yFactor
+      }
+    } else {
+      for (; idx >= range.startIndex; idx--){
+        CGPathAddLineToPoint(pathRef, nil, ((data.xAtIndex(idx) - xLower) * xFactor).cgfloat, ((yUpper - data.upperAtIndex(idx)) * yFactor).cgfloat)
+      }
+    }
+    
+    CGPathCloseSubpath(pathRef)
+    
+    return pathRef
+  }
 }

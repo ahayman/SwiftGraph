@@ -8,6 +8,8 @@
 
 import Foundation
 
+let screenScale = Double(UIScreen.mainScreen().scale)
+
 /**
 A simple function to easily delay the execution of code
 
@@ -26,7 +28,7 @@ func delay(delay:Double, closure:()->()) {
 /**
 *  Abstract Class that contains some defaults and functionality.  Use one of the concrete subsclasses to display actual graph data
 */
-class Graph <T: BasePoint> : CAShapeLayer {
+class Graph <T: BaseData> : CAShapeLayer {
   var _graphNeedsLayout = false
   var graphData: GraphData<T>
   
@@ -37,7 +39,7 @@ class Graph <T: BasePoint> : CAShapeLayer {
   - parameter space:   The space the graph is in
   - parameter graphID: A unique ID
   */
-  init(space: GraphSpace, data: GraphData<T>){
+  init(space: GraphSpace<T.FloatingType>, data: GraphData<T>){
     self.graphData = data
     self.graphSpace = space
     super.init()
@@ -47,6 +49,9 @@ class Graph <T: BasePoint> : CAShapeLayer {
       me.setGraphNeedsLayout()
       return true
     }
+    self.lineWidth = 1.0
+    self.strokeColor = UIColor.blackColor().CGColor
+    self.fillColor = nil
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -61,7 +66,7 @@ class Graph <T: BasePoint> : CAShapeLayer {
   var graphID : String?
   
   /// The graph space, which represents the space in which the graph is displayed
-  var graphSpace : GraphSpace {
+  var graphSpace : GraphSpace<T.FloatingType> {
     willSet{
       self.setGraphNeedsLayout()
     }

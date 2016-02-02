@@ -11,60 +11,48 @@ import Foundation
 /**
 *  The GraphRange describes a range of values and bounds.  This helps to define the range of values for a graph and the current "view window" into that range.  The bounds describes this "view window".  You can also
 */
-struct GraphRange {
+struct GraphRange <T: FloatingArithmatic> {
   
   // MARK: Private
   
   //Private variables
-  private var _rangeMax : Double = 0
-  private var _rangeMin : Double = 0
-  private var _upperBounds : Double = 0
-  private var _lowerBounds : Double = 0
+  private var _upperBounds : T
+  private var _lowerBounds : T
   
   // MARK: Properties
   
   /// The maximum value of the range
-  var rangeMax : Double {
-    get {
-      return _rangeMax;
-    }
-    set(rangeMax) {
-      _rangeMax = rangeMax;
-      if (_rangeMax < _rangeMin) { _rangeMin = _rangeMax }
-      if (_upperBounds > _rangeMax) { _upperBounds = _rangeMax }
-      if (_lowerBounds > _rangeMax) { _lowerBounds = _rangeMax }
+  var rangeMax : T {
+    didSet {
+      if (rangeMax < rangeMin) { rangeMin = rangeMax }
+      if (_upperBounds > rangeMax) { _upperBounds = rangeMax }
+      if (_lowerBounds > rangeMax) { _lowerBounds = rangeMax }
     }
   }
   
   /// The minimum value of the range
-  var rangeMin : Double {
-    get {
-      return _rangeMin;
-    }
-    set(rangeMin) {
-      _rangeMin = rangeMin;
-      if (_rangeMax < _rangeMin) { _rangeMax = _rangeMin }
-      if (_lowerBounds < _rangeMin) { _lowerBounds = _rangeMin }
-      if (_upperBounds < _rangeMin) { _upperBounds = _rangeMin }
+  var rangeMin : T {
+    didSet {
+      if (rangeMax < rangeMin) { rangeMax = rangeMin }
+      if (_lowerBounds < rangeMin) { _lowerBounds = rangeMin }
+      if (_upperBounds < rangeMin) { _upperBounds = rangeMin }
     }
   }
   
   /// The span of the range (max - min)
-  var rangeSpan : Double {
-    get {
-      return self.rangeMax - self.rangeMin
-    }
+  var rangeSpan : T {
+    get { return rangeMax - rangeMin }
   }
   
   /// The upper bounds.  Cannot Set below the lowerBounds.  Also, if minBoundScale or maxBoundScale is set to anything other than 0, this setting this value will fail if the resulting rangeSpan exceed the scale bounds
-  var upperBounds : Double {
+  var upperBounds : T {
     set(upperBounds) {
-      if (upperBounds < _lowerBounds){
+      if upperBounds < _lowerBounds {
         return;
       }
-      if (minBoundScale != 0 || maxBoundScale != 0){
+      if minBoundScale?.isNormal ?? false || maxBoundScale?.isNormal ?? false {
         let newScale = self.rangeSpan / (upperBounds - _lowerBounds);
-        if ((minBoundScale == 0 || newScale >= minBoundScale) && (maxBoundScale == 0 || newScale <= maxBoundScale)){
+        if (minBoundScale?.isNormal ?? false  || newScale >= minBoundScale) && (maxBoundScale?.isNormal ?? false || newScale <= maxBoundScale) {
           _upperBounds = upperBounds;
         }
       } else {
@@ -77,14 +65,14 @@ struct GraphRange {
   }
   
   /// The lower bounds.  Cannot set above the upperBounds. Also, if minBoundScale or maxBoundScale is set to anything other than 0, this setting this value will fail if the resulting rangeSpan exceed the scale bounds
-  var lowerBounds : Double {
+  var lowerBounds : T {
     set(lowerBounds) {
       if (lowerBounds > _upperBounds){
         return;
       }
-      if (minBoundScale != 0 || maxBoundScale != 0){
+      if (minBoundScale?.isNormal ?? false || maxBoundScale?.isNormal ?? false){
         let newScale = self.rangeSpan / (_upperBounds - lowerBounds);
-        if ((minBoundScale == 0 || newScale >= minBoundScale) && (maxBoundScale == 0 || newScale <= maxBoundScale)){
+        if (minBoundScale?.isNormal ?? false || newScale >= minBoundScale) && (maxBoundScale?.isNormal ?? false || newScale <= maxBoundScale) {
           _lowerBounds = lowerBounds;
         }
       } else {
@@ -97,28 +85,28 @@ struct GraphRange {
   }
   
   /// Default: 0, 0 = No max bound scale.  This will limit the maximum scale to the value or no max if value is 0
-  var maxBoundScale : Double = 0
+  var maxBoundScale : T?
   
   /// Default: 0, 0 = No max min scale.  This will limit the minimum scale to the value or no minimum if value is 0
-  var minBoundScale : Double = 0
+  var minBoundScale : T?
   
   /// The bound span is the current span on the bounds (upper - lower bounds)
-  var boundSpan : Double {
+  var boundSpan : T {
       return upperBounds - lowerBounds
   }
   
   /// The tick min represents the minimum value neccessary to display a tick within the graph range.  It will return either the rangeMin or the lowerBounds
-  var tickMin : Double {
+  var tickMin : T {
       return max(rangeMin, lowerBounds)
   }
   
   /// The tick max represents the maximum value neccessary to display a tick withing the graph range.  It will return either the rangeMax or the upperBounds
-  var tickMax : Double {
+  var tickMax : T {
       return min(rangeMax, upperBounds)
   }
   
   /// The tick span represents the total span range to display: tickMax - tickMin
-  var tickSpan : Double {
+  var tickSpan : T {
       return self.tickMax - self.tickMin
   }
   
@@ -129,12 +117,12 @@ struct GraphRange {
   
   - parameter factor: The factor you want to expand by.  For instance, 1 does nothing, .5 halves the range, 2 doubles the range
   */
-  mutating func expandRangeByFactor(factor : Double) {
+  mutating func expandRangeByFactor(factor : T) {
     let span = self.rangeSpan
     let newSpan = span * factor
-    let diff : Double = (newSpan - span) / 2
-    self.rangeMin -= diff
-    self.rangeMax += diff
+    let diff = (newSpan - span) / T(2.0)
+    rangeMin = rangeMin - diff
+    rangeMax = rangeMax + diff
   }
   
   /**
@@ -142,12 +130,12 @@ struct GraphRange {
   
   - parameter factor: The factor you want to expand by.  For instance, 1 does nothing, .5 halves the bounds, 2 doubles the bounds
   */
-  mutating func expandBoundsByFactor(factor : Double) {
+  mutating func expandBoundsByFactor(factor : T) {
     let span = self.boundSpan
     let newSpan = span * factor
-    let diff = (newSpan - span) / 2
-    self.lowerBounds -= diff
-    self.upperBounds += diff
+    let diff = (newSpan - span) / T(2.0)
+    lowerBounds = lowerBounds - diff
+    upperBounds = upperBounds + diff
   }
   
 }
@@ -155,12 +143,12 @@ struct GraphRange {
 /**
 *  The GraphSpace represents a base, and two ranges: the X & Y range
 */
-struct GraphSpace {
-  var xBase : Double
-  let xRange: GraphRange
-  let yRange: GraphRange
+struct GraphSpace <T: FloatingArithmatic> {
+  var xBase : T
+  let xRange: GraphRange<T>
+  let yRange: GraphRange<T>
   
-  init (xRange : GraphRange, yRange : GraphRange, base : Double) {
+  init (xRange : GraphRange<T>, yRange : GraphRange<T>, base : T) {
     self.xRange = xRange;
     self.yRange = yRange;
     self.xBase = base;
