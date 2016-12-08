@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		93756BDA1C97A38300B5422C /* TickGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93756BD91C97A38300B5422C /* TickGenerator.swift */; };
 		939493AA1A4B1E9100CEEF27 /* SwiftGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 939493A91A4B1E9100CEEF27 /* SwiftGraph.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		939493B01A4B1E9100CEEF27 /* SwiftGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939493A41A4B1E9100CEEF27 /* SwiftGraph.framework */; };
 		939493B71A4B1E9100CEEF27 /* SwiftGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939493B61A4B1E9100CEEF27 /* SwiftGraphTests.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		93756BD91C97A38300B5422C /* TickGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TickGenerator.swift; sourceTree = "<group>"; };
 		939493A41A4B1E9100CEEF27 /* SwiftGraph.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftGraph.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		939493A81A4B1E9100CEEF27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		939493A91A4B1E9100CEEF27 /* SwiftGraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftGraph.h; sourceTree = "<group>"; };
@@ -70,6 +72,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		933B59031C666AF100B1D88B /* Axis */ = {
+			isa = PBXGroup;
+			children = (
+				93756BD91C97A38300B5422C /* TickGenerator.swift */,
+			);
+			name = Axis;
+			sourceTree = "<group>";
+		};
 		9394939A1A4B1E9100CEEF27 = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +101,7 @@
 		939493A61A4B1E9100CEEF27 /* SwiftGraph */ = {
 			isa = PBXGroup;
 			children = (
+				933B59031C666AF100B1D88B /* Axis */,
 				93CEE2661C5D168B00E98BA4 /* Utilities */,
 				939493A91A4B1E9100CEEF27 /* SwiftGraph.h */,
 				93C398741A57300E0085F60A /* Data */,
@@ -273,6 +284,7 @@
 				93B4AA181A4B5F67008B6526 /* GraphData.swift in Sources */,
 				93C398761A5740240085F60A /* RangeGraph.swift in Sources */,
 				93CEE26C1C5EF78500E98BA4 /* Arithmatic.swift in Sources */,
+				93756BDA1C97A38300B5422C /* TickGenerator.swift in Sources */,
 				939493C11A4B1F6700CEEF27 /* GraphSpace.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
